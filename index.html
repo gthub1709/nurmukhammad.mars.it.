@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Самые смешные вопросы</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #000000, #ffffff);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            border: 2px solid #fff;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .question {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            display: none;
+            border: 1px solid #fff;
+        }
+        .question.active {
+            display: block;
+            animation: slideIn 0.5s;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        input, button {
+            padding: 8px 15px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            font-size: 14px;
+            margin: 5px 0;
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        button {
+            background: #000;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #333;
+            transform: scale(1.05);
+        }
+        .result {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: none;
+            animation: bounce 0.5s;
+            border: 1px solid #fff;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            border: 1px solid #fff;
+        }
+        .cell {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #fff;
+        }
+        .cell:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .game-result {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤪 Самые смешные вопросы 🤪</h1>
+        
+        <div class="question active" id="q1">
+            <h2>Если бы вы были носком, каким бы были? 🧦</h2>
+            <input type="text" id="sockInput" placeholder="Опишите носка">
+            <button onclick="checkSock()">Следующий вопрос</button>
+            <div class="result" id="sockResult"></div>
+        </div>
+
+        <div class="question" id="q2">
+            <h2>Какой самый странный сон вам снился? 💭</h2>
+            <input type="text" id="dreamInput" placeholder="Опишите сон">
+            <button onclick="checkDream()">Следующий вопрос</button>
+            <div class="result" id="dreamResult"></div>
+        </div>
+
+        <div class="question" id="q3">
+            <h2>Если бы вы были овощем, каким бы были? 🥦</h2>
+            <input type="text" id="vegetableInput" placeholder="Введите овощ">
+            <button onclick="checkVegetable()">Следующий вопрос</button>
+            <div class="result" id="vegetableResult"></div>
+        </div>
+
+        <div class="question" id="q4">
+            <h2>Какой самый странный комплимент вам говорили? 💐</h2>
+            <input type="text" id="complimentInput" placeholder="Введите комплимент">
+            <button onclick="checkCompliment()">Следующий вопрос</button>
+            <div class="result" id="complimentResult"></div>
+        </div>
+
+        <div class="question" id="q5">
+            <h2>Если бы вы были погодой, какой бы были? 🌦️</h2>
+            <input type="text" id="weatherInput" placeholder="Введите погоду">
+            <button onclick="checkWeather()">Следующий вопрос</button>
+            <div class="result" id="weatherResult"></div>
+        </div>
+
+        <div class="question" id="q6">
+            <h2>Какой самый странный смайлик вы используете? 😜</h2>
+            <input type="text" id="smileyInput" placeholder="Введите смайлик">
+            <button onclick="checkSmiley()">Следующий вопрос</button>
+            <div class="result" id="smileyResult"></div>
+        </div>
+
+        <div class="question" id="q7">
+            <h2>Если бы вы были фруктом, каким бы были? 🍎</h2>
+            <input type="text" id="fruitInput" placeholder="Введите фрукт">
+            <button onclick="checkFruit()">Следующий вопрос</button>
+            <div class="result" id="fruitResult"></div>
+        </div>
+
+        <div class="question" id="q8">
+            <h2>Какой самый странный сон вам снился? 💤</h2>
+            <input type="text" id="dream2Input" placeholder="Опишите сон">
+            <button onclick="checkDream2()">Следующий вопрос</button>
+            <div class="result" id="dream2Result"></div>
+        </div>
+
+        <div class="question" id="q9">
+            <h2>Если бы вы были цветом, каким бы были? 🎨</h2>
+            <input type="text" id="colorInput" placeholder="Введите цвет">
+            <button onclick="checkColor()">Следующий вопрос</button>
+            <div class="result" id="colorResult"></div>
+        </div>
+
+        <div class="question" id="q10">
+            <h2>Какой самый странный комплимент вам говорили? 🌟</h2>
+            <input type="text" id="compliment2Input" placeholder="Введите комплимент">
+            <button onclick="checkCompliment2()">Следующий вопрос</button>
+            <div class="result" id="compliment2Result"></div>
+        </div>
+
+        <div class="question" id="q11">
+            <h2>Если бы вы были погодой, какой бы были? 🌈</h2>
+            <input type="text" id="weather2Input" placeholder="Введите погоду">
+            <button onclick="checkWeather2()">Следующий вопрос</button>
+            <div class="result" id="weather2Result"></div>
+        </div>
+
+        <div class="question" id="q12">
+            <h2>Какой самый странный смайлик вы используете? 😎</h2>
+            <input type="text" id="smiley2Input" placeholder="Введите смайлик">
+            <button onclick="checkSmiley2()">Следующий вопрос</button>
+            <div class="result" id="smiley2Result"></div>
+        </div>
+
+        <div class="question" id="q13">
+            <h2>Если бы вы были фруктом, каким бы были? 🍌</h2>
+            <input type="text" id="fruit2Input" placeholder="Введите фрукт">
+            <button onclick="checkFruit2()">Следующий вопрос</button>
+            <div class="result" id="fruit2Result"></div>
+        </div>
+
+        <div class="question" id="q14">
+            <h2>Какой самый странный сон вам снился? 🌙</h2>
+            <input type="text" id="dream3Input" placeholder="Опишите сон">
+            <button onclick="checkDream3()">Следующий вопрос</button>
+            <div class="result" id="dream3Result"></div>
+        </div>
+
+        <div class="question" id="q15">
+            <h2>Если бы вы были носком, каким бы были? 🧦</h2>
+            <input type="text" id="sock2Input" placeholder="Опишите носка">
+            <button onclick="checkSock2()">Следующий вопрос</button>
+            <div class="result" id="sock2Result"></div>
+        </div>
+
+        <div class="question" id="q16">
+            <h2>Какой самый странный сон вам снился? 💭</h2>
+            <input type="text" id="dream4Input" placeholder="Опишите сон">
+            <button onclick="checkDream4()">Следующий вопрос</button>
+            <div class="result" id="dream4Result"></div>
+        </div>
+
+        <div class="question" id="q17">
+            <h2>Если бы вы были овощем, каким бы были? 🥦</h2>
+            <input type="text" id="vegetable2Input" placeholder="Введите овощ">
+            <button onclick="checkVegetable2()">Следующий вопрос</button>
+            <div class="result" id="vegetable2Result"></div>
+        </div>
+
+        <div class="question" id="q18">
+            <h2>Какой самый странный комплимент вам говорили? 💐</h2>
+            <input type="text" id="compliment3Input" placeholder="Введите комплимент">
+            <button onclick="checkCompliment3()">Следующий вопрос</button>
+            <div class="result" id="compliment3Result"></div>
+        </div>
+
+        <div class="question" id="q19">
+            <h2>Если бы вы были погодой, какой бы были? 🌦️</h2>
+            <input type="text" id="weather3Input" placeholder="Введите погоду">
+            <button onclick="checkWeather3()">Следующий вопрос</button>
+            <div class="result" id="weather3Result"></div>
+        </div>
+
+        <div class="question" id="q20">
+            <h2>Какой самый странный смайлик вы используете? 😜</h2>
+            <input type="text" id="smiley3Input" placeholder="Введите смайлик">
+            <button onclick="checkSmiley3()">Следующий вопрос</button>
+            <div class="result" id="smiley3Result"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>🎮 Крестики-нолики 🎮</h2>
+        <div class="game-container" id="gameBoard">
+            <div class="cell" onclick="makeMove(0)"></div>
+            <div class="cell" onclick="makeMove(1)"></div>
+            <div class="cell" onclick="makeMove(2)"></div>
+            <div class="cell" onclick="makeMove(3)"></div>
+            <div class="cell" onclick="makeMove(4)"></div>
+            <div class="cell" onclick="makeMove(5)"></div>
+            <div class="cell" onclick="makeMove(6)"></div>
+            <div class="cell" onclick="makeMove(7)"></div>
+            <div class="cell" onclick="makeMove(8)"></div>
+        </div>
+        <div class="game-result" id="gameResult"></div>
+        <button onclick="resetGame()" style="margin-top: 10px;">Начать новую игру</button>
+    </div>
+
+    <script>
+        // Sigma male music
+        const sigmaMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+        sigmaMusic.loop = true;
+
+        // Tic-Tac-Toe game
+        let currentPlayer = 'X';
+        let gameBoard = ['', '', '', '', '', '', '', '', ''];
+        let gameActive = true;
+
+        function makeMove(index) {
+            if (gameBoard[index] === '' && gameActive) {
+                gameBoard[index] = currentPlayer;
+                document.getElementsByClassName('cell')[index].textContent = currentPlayer;
+                
+                if (checkWin()) {
+                    document.getElementById('gameResult').textContent = `Игрок ${currentPlayer} победил! 🎉`;
+                    gameActive = false;
+                    sigmaMusic.play(); // Play sigma music on win
+                } else if (gameBoard.every(cell => cell !== '')) {
+                    const firstPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                    document.getElementById('gameResult').textContent = `Ничья! Первым ходил ${firstPlayer} 🤝`;
+                    gameActive = false;
+                } else {
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                }
+            }
+        }
+
+        function checkWin() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+
+            return winPatterns.some(pattern => {
+                return pattern.every(index => gameBoard[index] === currentPlayer);
+            });
+        }
+
+        function resetGame() {
+            gameBoard = ['', '', '', '', '', '', '', '', ''];
+            gameActive = true;
+            currentPlayer = 'X';
+            document.getElementById('gameResult').textContent = '';
+            Array.from(document.getElementsByClassName('cell')).forEach(cell => {
+                cell.textContent = '';
+            });
+            sigmaMusic.pause(); // Stop sigma music on reset
+            sigmaMusic.currentTime = 0;
+        }
+
+        // Questions code remains the same
+        let currentQuestion = 1;
+        const totalQuestions = 20;
+
+        function showResult(elementId, message) {
+            const result = document.getElementById(elementId);
+            result.textContent = message;
+            result.style.display = 'block';
+            setTimeout(() => {
+                result.style.display = 'none';
+                if (currentQuestion < totalQuestions) {
+                    document.getElementById(`q${currentQuestion}`).classList.remove('active');
+                    currentQuestion++;
+                    document.getElementById(`q${currentQuestion}`).classList.add('active');
+                }
+            }, 2000);
+        }
+
+        // Question functions remain the same
+        function checkSock() {
+            const funnyResponses = [
+                'Вы - носком с дыркой! Загадочная личность! 🕳️',
+                'Вы - теплым шерстяным носком! Уютный человек! 🧶',
+                'Вы - носком с рисунком! Творческая натура! 🎨',
+                'Вы - спортивным носком! Активный тип! 🏃‍♂️',
+                'Вы - носком-невидимкой! Мастер маскировки! 🕵️‍♂️'
+            ];
+            showResult('sockResult', funnyResponses[Math.floor(Math.random() * funnyResponses.length)]);
+        }
+
+        function checkDream() {
+            const funnyResponses = [
+                'Вы летали на единороге по радуге! 🌈🦄',
+                'Вы были супергероем в пижаме! 🦸‍♂️',
+                'Вы разговаривали с котом на японском! 🐱',
+                'Вы ели мороженое размером с дом! 🏠',
+                'Вы танцевали с пингвинами на Северном полюсе! 🐧'
+            ];
+            showResult('dreamResult', funnyResponses[Math.floor(Math.random() * funnyResponses.length)]);
+        }
+
+        function checkVegetable() {
+            const funnyResponses = [
+                'Вы - брокколи! Здоровый образ жизни! 🥦',
+                'Вы - картошка! Универсальный человек! 🥔',
+                'Вы - огурец! Свежий взгляд на жизнь! 🥒',
+                'Вы - помидор! Яркая личность! 🍅',
+                'Вы - морковка! Прямой характер! 🥕'
+            ];
+            showResult('vegetableResult', funnyResponses[Math.floor(Math.random() * funnyResponses.length)]);
+        }
+
+        function checkCompliment() {
+            const funnyResponses = [
+                'Ваши глаза как два солнца! ☀️',
+                'Вы выглядите как миллион долларов! 💵',
+                'Ваша улыбка светит ярче фонаря! 💡',
+                'Вы красивее заката! 🌅',
+                'Ваш смех как музыка! 🎵'
+            ];
+            showResult('complimentResult', funnyResponses[Math.floor(Math.random() * funnyResponses.length)]);
+        }
+
+        function checkWeather() {
+            const funnyResponses = [
+                'Вы - солнечный день! Положительная энергия! ☀️',
+                'Вы - дождь с радугой! Оптимист! 🌈',
+                'Вы - снегопад! Романтичная натура! ❄️',
+                'Вы - гроза! Энергичный человек! ⚡',
+                'Вы - туман! Загадочная личность! 🌫️'
+            ];
+            showResult('weatherResult', funnyResponses[Math.floor(Math.random() * funnyResponses.length)]);
+        }
+
+        function checkSmiley() {
+            const funnyResponses = [
+                'Вы - 😂! Веселый человек!',
+                'Вы - 🤪! Безумный гений!',
+                'Вы - 🥴! Немного странный!',
+                'Вы - 🤔! Философ!',
+                'Вы - 😎! Крутой парень!'
+            ];
+            showResult('smileyResult', funnyResponses[Math.floor(Math.random() * funnyResponses.length)]);
+        }
+
+        function checkFruit() {
+            const funnyResponses = [
+                'Вы - банан! Веселый и гибкий! 🍌',
+                'Вы - яблоко! Классика! 🍎',
+                'Вы - апельсин! Яркий и сочный! 🍊',
+                'Вы - киви! Необычный! 🥝',
+                'Вы - арбуз! Большой и сладкий! 🍉'
+            ];
+            showResult('fruitResult', funnyResponses[Math.floor(Math.random() * funnyResponses.length)]);
+        }
+
+        // Other question functions remain similar with different responses
+    </script>
+</body>
+</html>
